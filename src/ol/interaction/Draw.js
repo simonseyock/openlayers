@@ -68,8 +68,12 @@ import {getStrideForLayout} from '../geom/SimpleGeometry.js';
  * polygon rings and `2` for line strings.
  * @property {import("../events/condition.js").Condition} [finishCondition] A function
  * that takes an {@link module:ol/MapBrowserEvent~MapBrowserEvent} and returns a
- * boolean to indicate whether the drawing can be finished. Not used when drawing
- * POINT or MULTI_POINT geometries.
+ * boolean to indicate whether the drawing can be finished.
+ * It only gets called if the event is handled as determined by condition and if one of these criteria is met:
+ * a) mode is `LineString` or `Circle` and the event is in proximity to the last drawn point
+ * b) mode is `Polygon` and the event is in proximity to the first drawn point and or is in proximity to the
+ * last drawn point and is not in trace mode
+ * It never gets called when the mode is `Point`.
  * @property {import("../style/Style.js").StyleLike|import("../style/flat.js").FlatStyleLike} [style]
  * Style for sketch features. The draw interaction can have up to three sketch features, depending on the mode.
  * It will always contain a feature with a `Point` geometry that corresponds to the current cursor position.
